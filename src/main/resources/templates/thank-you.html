@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Completed!</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <a data-th-href="@{/gohome}">
+            <figure class="figure" style="text-align: center;">
+                <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
+            </figure>
+        </a>
+    </div>
+        <h1>Success</h1>
+        <hr>
+        <h2>You have successfully applied for the remote role</h2>
+        <div>
+            <a data-th-href="@{/job/{id}(id=${job.id})}">
+                <h3 data-th-text="${job.title}"></h3>
+            </a>
+        </div>
+
+        <table>
+            <tr>
+                <td>Confirmation details have been sent to your email:</td>
+                <td th:text="${applicant.email}"></td>
+            </tr>
+            <tr>
+        </table>
+
+        <div>
+            <a data-th-href="@{/homepage}">
+                <code> Back to job listings </code>
+            </a>
+        </div>
+
+        <div>
+            <a data-th-href="@{/accountpage}">
+                <code> View your job application(s) </code>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
