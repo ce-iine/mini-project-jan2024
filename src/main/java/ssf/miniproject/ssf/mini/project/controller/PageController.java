@@ -94,9 +94,11 @@ public class PageController {
         Job job = (Job) session.getAttribute("job");
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         Account account = (Account) session.getAttribute("account");
+        List<String> dropdown = jobSvc.selectCountry();
         model.addAttribute("job", job);
         model.addAttribute("applicant", applicant);
         model.addAttribute("account", account);
+        model.addAttribute("dropdown", dropdown);
         return "application";
     }
 
@@ -116,6 +118,8 @@ public class PageController {
             model.addAttribute("job", job);
             model.addAttribute("applicant", form);
             model.addAttribute("account", account);
+            List<String> dropdown = jobSvc.selectCountry();
+            model.addAttribute("dropdown", dropdown);
             return "application";
         }
         jobSvc.updateApplicant(account, form, job);
@@ -149,16 +153,18 @@ public class PageController {
         List<Applicant> allApplications = jobSvc.getAllApplications(applicant.getEmail());
         System.out.println(">>BEFORE FINAL CONTROLLERRRRR" + allApplications);
         model.addAttribute("allApplications", allApplications);
+        model.addAttribute("applicant", applicant);
         return "account-page";
     }
 
     @GetMapping("/filteredCountry")
-    public String filteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model, HttpSession sess) {
+    public String filteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model,
+            HttpSession sess) {
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
         List<Job> allJobs = jobSvc.readApi();
         List<String> allCountries = new ArrayList<>();
         allCountries = jobSvc.makeCountryList(allJobs);
-        System.out.println("SELECTED" +selected);
+        System.out.println("SELECTED" + selected);
         List<Job> filteredJobs;
 
         if (selected != null && !selected.isEmpty()) {
@@ -175,7 +181,8 @@ public class PageController {
     }
 
     @GetMapping("/searchFilteredCountry")
-    public String searchFilteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model, HttpSession sess) {
+    public String searchFilteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model,
+            HttpSession sess) {
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
         List<Job> allJobs = jobSvc.searchApiList();
         List<String> allCountries = new ArrayList<>();

@@ -13,18 +13,36 @@
 
 <body>
     <div class="container">
-        <div style="text-align: center;">
-            <a data-th-href="@{/gohome}">
-                <figure class="figure" style="text-align: center;">
-                    <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
-                </figure>
-            </a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <a data-th-href="@{/gohome}">
+                    <figure class="figure" style="text-align: center;">
+                        <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
+                    </figure>
+                </a>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 100px;">
+                    <a data-th-href="@{/accountpage}">
+                        <code>My account page</code>
+                    </a>
+                </div>
+                <div style="margin-right: 100px;">
+                    <a data-th-href="@{/homepage}">
+                        <code>Home</code>
+                    </a>
+                </div>
+            </div>
         </div>
+
+
         <br>
+        <div class="d-flex justify-content-center">
         <div class="btn-group">
             <a data-th-href="@{/job/{id}(id=${job.id})}" class="btn btn-primary">Overview</a>
             <a class="btn btn-primary active" aria-current="page">Application</a>
         </div> 
+    </div>
 
         <br><br>
         <div style="text-align: center;">
@@ -63,6 +81,15 @@
             <div class="mb-3">
                 <label for="email" class="form-label"><span style="color:red;">*</span>Email</label>
                 <p th:text="${account.email}"></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="location" class="form-label"><span style="color:red;">*</span>Location</label>
+            <select class="form-select" aria-label="Select country">
+                <option selected>Select country</option>
+                <option th:each="location: ${dropdown}" th:value="${location}" th:text="${location}">
+                </option>
+              </select>
             </div>
 
             <div class="mb-3">

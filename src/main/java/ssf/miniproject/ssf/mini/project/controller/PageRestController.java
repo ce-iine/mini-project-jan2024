@@ -22,9 +22,15 @@ public class PageRestController { //return application information in json forma
     @GetMapping("application/{id}")
     public ResponseEntity<JsonObject> showOrder(@PathVariable String id, HttpSession sess) {
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
-        sess.invalidate();
 
         ResponseEntity<JsonObject> resp = jobSvc.getOneApplication(applicant.getEmail(), Long.parseLong(id));
         return resp;
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpSession sess) {
+        sess.invalidate();
+
+       return "";
     }    
 }

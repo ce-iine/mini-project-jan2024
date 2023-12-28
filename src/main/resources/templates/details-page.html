@@ -13,18 +13,35 @@
 
 <body>
     <div class="container">
-        <div style="text-align: center;">
-            <a data-th-href="@{/gohome}">
-                <figure class="figure" style="text-align: center;">
-                    <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
-                </figure>
-            </a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <a data-th-href="@{/gohome}">
+                    <figure class="figure" style="text-align: center;">
+                        <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
+                    </figure>
+                </a>
+            </div>
+            <div style="display: flex;">
+                <div style="margin-right: 100px;">
+                    <a data-th-href="@{/accountpage}">
+                        <code>My account page</code>
+                    </a>
+                </div>
+                <div style="margin-right: 100px;">
+                    <a data-th-href="@{/homepage}">
+                        <code>Home</code>
+                    </a>
+                </div>
+            </div>
         </div>
+
         <br>
+        <div class="d-flex justify-content-center">
         <div class="btn-group">
             <a class="btn btn-primary active" aria-current="page">Overview</a>
             <a data-th-href="@{/job/apply/{id}(id=${job.id})}" class="btn btn-primary">Application</a>
         </div>
+    </div>
 
         <br><br>
         <div style="text-align: center;">
@@ -33,7 +50,7 @@
         </div>
 
         <div>
-            <p th:text="${job.description}"></p>
+            <p th:utext="${job.description}"></p>
         </div>
 
         <div class="d-grid gap-2">

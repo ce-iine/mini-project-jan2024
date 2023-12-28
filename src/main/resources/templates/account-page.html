@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,18 +10,39 @@
 
     <title>Document</title>
 </head>
-<body>
-    <div style="text-align: center;">
-        <a data-th-href="@{/gohome}">
-            <figure class="figure" style="text-align: center;">
-                <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
-            </figure>
-        </a>
-    </div>
-    <h1>All applications</h1>
 
-    <ul data-th-each="app : ${allApplications}"> 
-        <a th:href="@{/application/{id}(id=*{app.applied})}" data-th-text="*{app.applied}" ></a>
-    </ul>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center;" class="container">
+        <div>
+            <a data-th-href="@{/gohome}">
+                <figure class="figure" style="text-align: center;">
+                    <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
+                </figure>
+            </a>
+        </div>
+        <div style="display: flex;">
+            <div style="margin-right: 100px;">
+                <a data-th-href="@{/accountpage}">
+                    <code>My account page</code>
+                </a>
+            </div>
+            <div style="margin-right: 100px;">
+                <a data-th-href="@{/homepage}">
+                    <code>Home</code>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+
+        <h1 data-th-text=" 'All applications by ' + ${applicant.email} "></h1>
+        <hr>    
+        <ul data-th-each="app : ${allApplications}">
+            <a th:href="@{/application/{id}(id=*{app.applied})}" data-th-text="*{app.applied}"></a>
+        </ul>
+
+    </div>
 </body>
+
 </html>

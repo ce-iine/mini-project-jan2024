@@ -34,6 +34,8 @@ public class Applicant {
     @NotEmpty (message = "Address is mandatory")
     private String address;
 
+    private String location;
+
     @NotEmpty (message = "Phone Number is mandatory")
     @Pattern (regexp = "(8|9)[0-9]{7}", message="Invalid phone number entered")
     private String mobileNo;

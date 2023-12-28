@@ -12,31 +12,41 @@
 </head>
 
 <body>
-    <div style="text-align: center;">
-        <a data-th-href="@{/gohome}">
-            <figure class="figure" style="text-align: center;">
-                <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
-            </figure>
-        </a>
+    <div style="display: flex; justify-content: space-between; align-items: center;" class="container">
+        <div>
+            <a data-th-href="@{/gohome}">
+                <figure class="figure" style="text-align: center;">
+                    <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
+                </figure>
+            </a>
+        </div>
+        <div style="display: flex;">
+            <div style="margin-right: 100px;">
+                <a data-th-href="@{/accountpage}">
+                    <code>My account page</code>
+                </a>
+            </div>
+            <div style="margin-right: 100px;">
+                <a data-th-href="@{/homepage}">
+                    <code>Home</code>
+                </a>
+            </div>
+        </div>
     </div>
-        <h1>Success</h1>
+
+    <div style="text-align: center;">
+        <h1>Success!</h1>
         <hr>
-        <h2>You have successfully applied for the remote role</h2>
+        <h2>You have successfully applied for the remote role:</h2>
         <div>
             <a data-th-href="@{/job/{id}(id=${job.id})}">
                 <h3 data-th-text="${job.title}"></h3>
             </a>
+
+            <p th:text=" 'Confirmation details have been sent to your email: ' + ${applicant.email}" ></p>
         </div>
 
-        <table>
-            <tr>
-                <td>Confirmation details have been sent to your email:</td>
-                <td th:text="${applicant.email}"></td>
-            </tr>
-            <tr>
-        </table>
-
-        <div>
+        <div> 
             <a data-th-href="@{/homepage}">
                 <code> Back to job listings </code>
             </a>
@@ -48,6 +58,7 @@
             </a>
         </div>
 
+    </div>
     </div>
 
 </body>

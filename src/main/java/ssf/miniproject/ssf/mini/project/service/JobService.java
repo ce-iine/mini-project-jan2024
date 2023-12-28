@@ -24,8 +24,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +36,9 @@ public class JobService {
 
     @Value("${search.jobapi}")
     private String searchApi;
+
+    @Value("${allcountries}")
+    private List<String> selectCountry;
 
     @Autowired
     ApplicantRepo applicantRepo;
@@ -61,13 +62,9 @@ public class JobService {
             job.setTitle(js.getString("title"));
             job.setCompany_name(js.getString("company_name"));
             job.setCategory(js.getString("category"));
-            // job.setTags(js.asJsonObject().get("tags").toString());
             job.setJob_type(js.getString("job_type"));
             job.setCandidate_required_location(js.getString("candidate_required_location"));
-
-            String pure = js.getString("description");
-            String finalDescription = readHtml(pure);
-            job.setDescription(finalDescription);
+            job.setDescription(js.getString("description"));
             allJobs.add(job);
             jobMap.put(job.getId(), job);
         }
@@ -96,12 +93,6 @@ public class JobService {
         return allCountries;
     }
 
-    public String readHtml(String test) {
-        Document doc = Jsoup.parse(test);
-        String cleanText = doc.text();
-        return cleanText;
-    }
-
     public Job displayJob(String id) {
         Job job = jobMap.get(Long.parseLong(id));
         return job;
@@ -110,13 +101,11 @@ public class JobService {
     public String formUrl(String search) {
         String finalSearchApi ="";
         finalSearchApi = searchApi + search;
-        // searchApi += search;
         System.out.println(finalSearchApi);
         return finalSearchApi;
     }
 
     public List<Job> searchApi(String url) {
-        // List<Job> searchedAllJobs = new ArrayList<>();
         ResponseEntity<String> result = template.getForEntity(url, String.class);
         String jsonString = result.getBody().toString();
         JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
@@ -131,10 +120,7 @@ public class JobService {
             job.setCategory(js.getString("category"));
             job.setJob_type(js.getString("job_type"));
             job.setCandidate_required_location(js.getString("candidate_required_location"));
-
-            String pure = js.getString("description");
-            String finalDescription = readHtml(pure);
-            job.setDescription(finalDescription);
+            job.setDescription(js.getString("description"));
             searchedAllJobs.add(job);
             jobMap.put(job.getId(), job);
         }
@@ -172,6 +158,10 @@ public class JobService {
     public ResponseEntity<JsonObject> getOneApplication(String email, Long id) {
         ResponseEntity<JsonObject> resp = applicantRepo.getOneApplication(email, id);
         return resp;
+    }
+
+    public List<String> selectCountry(){
+        return selectCountry;
     }
 
 }
