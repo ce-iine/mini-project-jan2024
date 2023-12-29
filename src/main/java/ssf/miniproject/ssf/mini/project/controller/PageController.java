@@ -66,21 +66,6 @@ public class PageController {
         return "redirect:/homepage";
     }
 
-    @GetMapping("/gohome")
-    public String goHome(Model model, HttpSession sess) {
-
-        List<Job> allJobs = jobSvc.readApi();
-        List<String> allCountries = new ArrayList<>();
-        allCountries = jobSvc.makeCountryList(allJobs);
-
-        Applicant applicant = (Applicant) sess.getAttribute("applicant");
-
-        model.addAttribute("allJobs", allJobs);
-        model.addAttribute("applicant", applicant);
-        model.addAttribute("allCountries", allCountries);
-        return "redirect:/homepage";
-    }
-
     @GetMapping("/job/{id}")
     public String jobDetails(@PathVariable String id, Model model, HttpSession session) {
         Job job = jobSvc.displayJob(id);
@@ -123,7 +108,6 @@ public class PageController {
             return "application";
         }
         jobSvc.updateApplicant(account, form, job);
-
         model.addAttribute("applicant", form);
         model.addAttribute("job", job);
         return "thank-you";
@@ -151,7 +135,7 @@ public class PageController {
     public String seeAccount(Model model, HttpSession session) throws JsonMappingException, JsonProcessingException {
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         List<Applicant> allApplications = jobSvc.getAllApplications(applicant.getEmail());
-        System.out.println(">>BEFORE FINAL CONTROLLERRRRR" + allApplications);
+        // System.out.println(">>BEFORE FINAL CONTROLLERRRRR" + allApplications);
         model.addAttribute("allApplications", allApplications);
         model.addAttribute("applicant", applicant);
         return "account-page";

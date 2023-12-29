@@ -14,7 +14,7 @@
 <body>
     <div style="display: flex; justify-content: space-between; align-items: center;" class="container">
         <div>
-            <a data-th-href="@{/gohome}">
+            <a data-th-href="@{/homepage}">
                 <figure class="figure" style="text-align: center;">
                     <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
                 </figure>
@@ -37,26 +37,25 @@
     <div style="text-align: center;">
         <h1>Success!</h1>
         <hr>
-        <h2>You have successfully applied for the remote role:</h2>
+        <h2 style="margin-bottom: 20px;">You have successfully applied for the remote role:</h2>
         <div>
-            <a data-th-href="@{/job/{id}(id=${job.id})}">
-                <h3 data-th-text="${job.title}"></h3>
+            <a data-th-href="@{/job/{id}(id=${job.id})}" style="text-decoration: none;">
+                <h3 data-th-text="${job.title}" style="margin-bottom: 10px;"></h3>
             </a>
-
-            <p th:text=" 'Confirmation details have been sent to your email: ' + ${applicant.email}" ></p>
+            <p th:text=" 'Confirmation details have been sent to your email: ' + ${applicant.email}"
+                style="margin-bottom: 15px;"></p>
         </div>
 
-        <div> 
-            <a data-th-href="@{/homepage}">
-                <code> Back to job listings </code>
-            </a>
-        </div>
+        <br>
 
-        <div>
-            <a data-th-href="@{/accountpage}">
-                <code> View your job application(s) </code>
-            </a>
-        </div>
+        <button type="button" class="btn btn-info" style="color: black; text-decoration: none; margin: 50px;">
+            <a data-th-href="@{/homepage}" style="color: inherit; text-decoration: none;">Back to job listings</a>
+        </button>
+
+        <button type="button" class="btn btn-info" style="color: black; text-decoration: none; margin: 50px;">
+            <a data-th-href="@{/accountpage}" style="color: inherit; text-decoration: none;">View your job
+                application(s)</a>
+        </button>
 
     </div>
     </div>

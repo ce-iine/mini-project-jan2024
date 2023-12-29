@@ -29,9 +29,7 @@
             background-color: #fff;
         }
 
-        .login-form input[type="text"],
-        .login-form input[type="password"],
-        .login-form input[type="submit"] {
+        .login-form input[type="text"] {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 15px;
@@ -61,12 +59,6 @@
                 <input type="text" name="email" placeholder="Email" th:field="${acc.email}">
             </div>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('acc.email')}" th:errors="${acc.email}"></div>
-
-            <div>
-                <input type="password" name="password" placeholder="Password" th:field="*{acc.password}">
-            </div>
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('acc.password')}" th:errors="${acc.password}">
-            </div>
 
             <button type="submit" class="btn btn-primary">Login</button>
         </form>

@@ -15,6 +15,6 @@ public class Job {
     private String job_type;
     private String candidate_required_location;
     private String description;
-    private Integer applicantCount;
+    private String company_logo;
 }
 

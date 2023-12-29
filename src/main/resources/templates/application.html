@@ -15,7 +15,7 @@
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <a data-th-href="@{/gohome}">
+                <a data-th-href="@{/homepage}">
                     <figure class="figure" style="text-align: center;">
                         <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
                     </figure>
@@ -38,11 +38,11 @@
 
         <br>
         <div class="d-flex justify-content-center">
-        <div class="btn-group">
-            <a data-th-href="@{/job/{id}(id=${job.id})}" class="btn btn-primary">Overview</a>
-            <a class="btn btn-primary active" aria-current="page">Application</a>
-        </div> 
-    </div>
+            <div class="btn-group">
+                <a data-th-href="@{/job/{id}(id=${job.id})}" class="btn btn-primary">Overview</a>
+                <a class="btn btn-primary active" aria-current="page">Application</a>
+            </div>
+        </div>
 
         <br><br>
         <div style="text-align: center;">
@@ -85,11 +85,11 @@
 
             <div class="mb-3">
                 <label for="location" class="form-label"><span style="color:red;">*</span>Location</label>
-            <select class="form-select" aria-label="Select country">
-                <option selected>Select country</option>
-                <option th:each="location: ${dropdown}" th:value="${location}" th:text="${location}">
-                </option>
-              </select>
+                <select class="form-select" aria-label="Select country">
+                    <option selected>Select country</option>
+                    <option th:each="location: ${dropdown}" th:value="${location}" th:text="${location}">
+                    </option>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -117,14 +117,16 @@
                 <label for="formFileSm" class="form-label">Resume</label>
                 <input class="form-control form-control-sm" id="formFileSm" type="file">
             </div>
-            
+
             <div class="mb-3">
                 <label for="coverLetter" class="form-label">Cover Letter</label>
-                <input type="text" class="form-control" cols="30" rows="10" name="coverLetter" th:field="*{coverLetter}">
+                <input type="text" class="form-control" cols="30" rows="10" name="coverLetter"
+                    th:field="*{coverLetter}">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit Application</button>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 50px;">Submit Application</button>
         </form>
+
 </body>
 
 </html>

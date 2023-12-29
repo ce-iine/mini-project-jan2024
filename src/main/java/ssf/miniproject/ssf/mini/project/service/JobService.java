@@ -24,8 +24,10 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Service
@@ -46,7 +48,8 @@ public class JobService {
     RestTemplate template = new RestTemplate();
     private Map<Long, Job> jobMap = new HashMap<Long, Job>();
     private Map<String, Applicant> applicantMap = new HashMap<String, Applicant>();
-    List<Job> searchedAllJobs = new ArrayList<>();
+    private List<Job> searchedAllJobs = new ArrayList<>();
+    private Map<String, Applicant> map = new HashMap<>();
 
     public List<Job> readApi() {
         List<Job> allJobs = new ArrayList<>();
@@ -61,6 +64,7 @@ public class JobService {
             job.setId(js.getJsonNumber("id").longValue());
             job.setTitle(js.getString("title"));
             job.setCompany_name(js.getString("company_name"));
+            job.setCompany_logo(js.getString("company_logo"));
             job.setCategory(js.getString("category"));
             job.setJob_type(js.getString("job_type"));
             job.setCandidate_required_location(js.getString("candidate_required_location"));
@@ -83,13 +87,12 @@ public class JobService {
                 List<String> foundValue = allCountries.stream().filter(s -> s.equals(currCountry))
                         .collect(Collectors.toList());
                 if (foundValue.size() > 0) {
-                    // System.out.println("foundValue" + foundValue); // if country list has value already, print country
+
                 } else {
                     allCountries.add(currCountry); // if particular country list has no values, add the country to the list
                 }
             }
         }
-        // System.out.println("see all countriess" + allCountries);
         return allCountries;
     }
 
@@ -117,6 +120,7 @@ public class JobService {
             job.setId(js.getJsonNumber("id").longValue());
             job.setTitle(js.getString("title"));
             job.setCompany_name(js.getString("company_name"));
+            job.setCompany_logo(js.getString("company_logo"));
             job.setCategory(js.getString("category"));
             job.setJob_type(js.getString("job_type"));
             job.setCandidate_required_location(js.getString("candidate_required_location"));
@@ -137,14 +141,12 @@ public class JobService {
         String applicantEmail = acc.getEmail();
         applicant.setEmail(applicantEmail);
         applicantMap.put(acc.getEmail(), applicant);
-        System.out.println("WHAT DOES MAP LOOK >>>>>\n" + applicantMap);
         return applicant;
     }
 
     public void updateApplicant(Account account, Applicant applicant, Job job) {
         String setEmail = account.getEmail();
         applicant.setEmail(setEmail);
-
         applicant.setApplied(job.getId().toString());   
         applicantMap.put(applicant.getEmail(), applicant);
         System.out.println("SEE FULL MAP >>>>>>>" + applicantMap);
@@ -152,16 +154,39 @@ public class JobService {
     }
 
     public List<Applicant> getAllApplications(String email) throws JsonMappingException, JsonProcessingException {
+        makeMap(applicantRepo.allApplications(email));
         return applicantRepo.allApplications(email);
     }
 
-    public ResponseEntity<JsonObject> getOneApplication(String email, Long id) {
-        ResponseEntity<JsonObject> resp = applicantRepo.getOneApplication(email, id);
-        return resp;
+    public Map<String, Applicant> makeMap(List<Applicant> list){
+        for (Applicant app :list){
+            map.put(app.getApplied(), app);
+        }
+        System.out.println("MAP IS HERE" + map);
+        return map;
+    }
+
+    public ResponseEntity<String> getOne(String id){
+        Applicant app = map.get(id);
+        JSONObject jsonResponse = new JSONObject();
+        if (app != null) {
+            jsonResponse.put("firstName", app.getFirstName());
+            jsonResponse.put("lastName", app.getLastName());
+            jsonResponse.put("email", app.getEmail());
+            jsonResponse.put("address", app.getAddress());
+            jsonResponse.put("location", app.getLocation());
+            jsonResponse.put("mobileNo", app.getMobileNo());
+            jsonResponse.put("dob", app.getDob());
+            jsonResponse.put("coverLetter", app.getCoverLetter());
+            jsonResponse.put("applied", app.getApplied());
+            return new ResponseEntity<>(jsonResponse.toString(), HttpStatus.OK);
+        } 
+        JSONObject jObject = new JSONObject();
+        jObject.put("message", "Application not found");
+        return new ResponseEntity<>(jObject.toString(), HttpStatus.NOT_FOUND);
     }
 
     public List<String> selectCountry(){
         return selectCountry;
     }
-
 }

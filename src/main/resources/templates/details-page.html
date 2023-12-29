@@ -15,7 +15,7 @@
     <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <a data-th-href="@{/gohome}">
+                <a data-th-href="@{/homepage}">
                     <figure class="figure" style="text-align: center;">
                         <img src="/images/logotransparent.png" class="img-fluid" alt="logo" width="200" height="200">
                     </figure>
@@ -46,6 +46,7 @@
         <br><br>
         <div style="text-align: center;">
             <h1 th:text="${job.title}"></h1>
+            <img th:src="${job.company_logo}" width="150px" height="150px">
             <p th:text="${job.company_name}+ ' • ' + ${job.job_type}"></p>
         </div>
 
@@ -54,7 +55,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a class="btn btn-primary" th:href="@{/job/apply/{id}(id=${job.id})}" type="button">Apply For This Role!</a>
+            <a class="btn btn-primary" th:href="@{/job/apply/{id}(id=${job.id})}" type="button" style="margin-bottom: 50px;">Apply For This Role!</a>
         </div>
     </div>
 

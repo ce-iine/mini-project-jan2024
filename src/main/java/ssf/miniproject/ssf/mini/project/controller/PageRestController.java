@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.json.JsonObject;
 import jakarta.servlet.http.HttpSession;
-import ssf.miniproject.ssf.mini.project.model.Applicant;
 import ssf.miniproject.ssf.mini.project.service.JobService;
 
 @RestController
@@ -19,12 +17,9 @@ public class PageRestController { //return application information in json forma
     @Autowired
     JobService jobSvc;
 
-    @GetMapping("application/{id}")
-    public ResponseEntity<JsonObject> showOrder(@PathVariable String id, HttpSession sess) {
-        Applicant applicant = (Applicant) sess.getAttribute("applicant");
-
-        ResponseEntity<JsonObject> resp = jobSvc.getOneApplication(applicant.getEmail(), Long.parseLong(id));
-        return resp;
+    @GetMapping(path="application/{id}", produces = "application/json")
+    public ResponseEntity<String> showApplication(@PathVariable String id) {
+        return jobSvc.getOne(id);
     }
 
     @GetMapping("logout")
