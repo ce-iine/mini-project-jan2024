@@ -25,7 +25,6 @@ public class PageRestController { //return application information in json forma
     @GetMapping("logout")
     public String logout(HttpSession sess) {
         sess.invalidate();
-
-       return "";
-    }    
+       return "you have logged out";
+    }
 }

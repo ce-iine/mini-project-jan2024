@@ -44,7 +44,6 @@ public class PageController {
     @GetMapping("homepage")
     public String frontPage(Model model, HttpSession sess) {
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
-
         List<Job> allJobs = jobSvc.readApi();
         List<String> allCountries = new ArrayList<>();
         allCountries = jobSvc.makeCountryList(allJobs);
@@ -55,8 +54,7 @@ public class PageController {
     }
 
     @PostMapping("/userhome")
-    public String postLogin(@Valid @ModelAttribute("acc") Account form, BindingResult result, Model model,
-            HttpSession sess) {
+    public String postLogin(@Valid @ModelAttribute("acc") Account form, BindingResult result, Model model, HttpSession sess) {
         if (result.hasErrors()) {
             return "login";
         }
@@ -121,7 +119,6 @@ public class PageController {
         List<Job> allJobs = jobSvc.searchApi(result);
         List<String> allCountries = new ArrayList<>();
         allCountries = jobSvc.makeCountryList(allJobs);
-
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
 
         model.addAttribute("allCountries", allCountries);
@@ -135,7 +132,6 @@ public class PageController {
     public String seeAccount(Model model, HttpSession session) throws JsonMappingException, JsonProcessingException {
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         List<Applicant> allApplications = jobSvc.getAllApplications(applicant.getEmail());
-        // System.out.println(">>BEFORE FINAL CONTROLLERRRRR" + allApplications);
         model.addAttribute("allApplications", allApplications);
         model.addAttribute("applicant", applicant);
         return "account-page";
@@ -165,14 +161,13 @@ public class PageController {
     }
 
     @GetMapping("/searchFilteredCountry")
-    public String searchFilteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model,
-            HttpSession sess) {
+    public String searchFilteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model, HttpSession sess) {
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
         List<Job> allJobs = jobSvc.searchApiList();
         List<String> allCountries = new ArrayList<>();
         allCountries = jobSvc.makeCountryList(allJobs);
-
         List<Job> filteredJobs;
+        
         if (selected != null && !selected.isEmpty()) {
             filteredJobs = allJobs.stream()
                     .filter(job -> job.getCandidate_required_location().equalsIgnoreCase(selected))
