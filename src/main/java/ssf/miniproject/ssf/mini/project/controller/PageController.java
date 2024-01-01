@@ -189,4 +189,10 @@ public class PageController {
         model.addAttribute("entered", entered);
         return "front-page";
     }
+
+    @GetMapping("logout")
+    public String logout(HttpSession sess) {
+        sess.invalidate();
+       return "loggedout";
+    }
 }

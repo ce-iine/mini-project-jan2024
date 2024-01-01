@@ -21,10 +21,4 @@ public class PageRestController { //return application information in json forma
     public ResponseEntity<String> showApplication(@PathVariable String id) {
         return jobSvc.getOne(id);
     }
-
-    @GetMapping("logout")
-    public String logout(HttpSession sess) {
-        sess.invalidate();
-       return "you have logged out";
-    }
 }
