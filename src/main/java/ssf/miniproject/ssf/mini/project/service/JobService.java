@@ -51,6 +51,7 @@ public class JobService {
     private List<Job> searchedAllJobs = new ArrayList<>();
     private Map<String, Applicant> map = new HashMap<>();
     boolean search = false;
+    private List<Job> saved = new ArrayList<>();
 
     public List<Job> readApi() {
         search = false;
@@ -168,6 +169,21 @@ public class JobService {
             map.put(app.getApplied(), app);
         }
         return map;
+    }
+
+    public List<Job> save(Applicant applicant, Job job){ // NEWWW
+        saved.add(job);
+        applicantRepo.keepRecord(applicant, job);
+        return saved;
+    }
+
+    public List<Job> getSaves(String email) throws JsonMappingException, JsonProcessingException{ // NEWWW
+        List<Job> saves = applicantRepo.allSaved(email);
+        return saves;
+    }
+
+    public void deleteSaved(String email, Long id){ // NEWWW
+        applicantRepo.removeSaved(email, id);
     }
 
     public ResponseEntity<String> getOne(String id){

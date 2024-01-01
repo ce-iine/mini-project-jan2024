@@ -74,7 +74,7 @@ public class PageController {
 
     @GetMapping("/job/apply/{id}")
     public String applyPage(@PathVariable String id, Model model, HttpSession session) {
-        Job job = (Job) session.getAttribute("job");
+        Job job = (Job) session.getAttribute("job");    
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         Account account = (Account) session.getAttribute("account");
         List<String> dropdown = jobSvc.selectCountry();
@@ -122,7 +122,6 @@ public class PageController {
         List<Job> allJobs = jobSvc.searchApi(result); // check here
         List<String> allCountries = jobSvc.makeCountryList(allJobs);
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
-        System.out.println("SEE EMAILLLL " + applicant.getEmail());
 
         model.addAttribute("search", search);
         model.addAttribute("allCountries", allCountries);
@@ -137,9 +136,32 @@ public class PageController {
     public String seeAccount(Model model, HttpSession session) throws JsonMappingException, JsonProcessingException {
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         List<Applicant> allApplications = jobSvc.getAllApplications(applicant.getEmail());
+        List<Job> saved = jobSvc.getSaves(applicant.getEmail());
+        boolean blank = saved.isEmpty();
+        boolean checkApp = allApplications.isEmpty();
+        model.addAttribute("blank", blank);
+        model.addAttribute("saved", saved);
         model.addAttribute("allApplications", allApplications);
         model.addAttribute("applicant", applicant);
+        model.addAttribute("checkApp", checkApp);
         return "account-page";
+    }
+
+    @GetMapping("/save/{id}") // NEWWW
+    public String saveJob(@PathVariable String id, Model model, HttpSession session) {
+        Job job = jobSvc.displayJob(id);
+        Applicant applicant = (Applicant) session.getAttribute("applicant");
+        jobSvc.save(applicant, job);
+        session.setAttribute("job", job);
+        model.addAttribute("job", job);
+        return "redirect:/job/{id}";
+    }
+
+    @GetMapping("/deletesaved/{id}") // NEWWW
+    public String deleted(@PathVariable Long id, Model model, HttpSession session) throws JsonMappingException, JsonProcessingException {
+        Applicant applicant = (Applicant) session.getAttribute("applicant");
+        jobSvc.deleteSaved(applicant.getEmail(), id);
+        return "redirect:/accountpage";
     }
 
     @GetMapping("/filteredCountry")

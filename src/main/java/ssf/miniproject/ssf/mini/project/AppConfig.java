@@ -58,4 +58,33 @@ public class AppConfig {
         return template;
     }
 
+    @Bean("savebean")
+    public RedisTemplate<String, Object> save() {
+
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(redisHost);
+        config.setPort(redisPort);
+        config.setDatabase(redisDatabase);
+
+        if (redisUser.trim().length() > 0) {
+			config.setUsername(redisUser);
+			config.setPassword(redisPassword);
+		}
+
+        JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
+        JedisConnectionFactory jedisFac = new JedisConnectionFactory(config, jedisClient);
+        jedisFac.afterPropertiesSet();
+
+        RedisTemplate<String, Object> saveTemplate = new RedisTemplate<>();
+        saveTemplate.setConnectionFactory(jedisFac);
+
+        saveTemplate.setKeySerializer(new StringRedisSerializer()); 
+        saveTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        saveTemplate.setHashKeySerializer(new GenericJackson2JsonRedisSerializer());
+        saveTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        saveTemplate.afterPropertiesSet();
+
+        return saveTemplate;
+    }
+
 }

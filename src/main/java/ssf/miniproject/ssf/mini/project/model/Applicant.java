@@ -8,7 +8,6 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 

@@ -42,11 +42,46 @@
     <div style="text-align: center;">
 
         <h1 data-th-text=" 'All applications by ' + ${applicant.email} "></h1>
-        <hr>    
+        <hr>
+        <div style="text-align: center;" class="container">
+            <p th:if="${checkApp}" data-th-text="'You have not started applying for jobs'" style="color: red;"></p>
+            </div>
         <ul data-th-each="app : ${allApplications}">
             <a th:href="@{/application/{id}(id=${app.applied})}" data-th-text="${app.applied}"></a>
         </ul>
 
+    </div>
+    <br>
+    <br>
+
+    <div style="text-align: center;">
+        <h1>Saved Jobs</h1>
+        <hr>
+        <div style="text-align: center;" class="container">
+            <p th:if="${blank}" data-th-text="'No jobs saved currently'" style="color: red;"></p>
+            </div>
+        <div class="container">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-th-each="job: ${saved}">
+                        <td data-th-text="*{job.title}"></td>
+                        <td data-th-text="*{job.company_name}"></td>
+                        <td>
+                            <a th:href="@{/job/{id}(id=${job.id})}" class="btn btn-secondary">Apply</a>
+                            <a th:href="@{/deletesaved/{id}(id=${job.id})}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 
