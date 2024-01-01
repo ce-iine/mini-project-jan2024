@@ -50,8 +50,10 @@ public class JobService {
     private Map<String, Applicant> applicantMap = new HashMap<String, Applicant>();
     private List<Job> searchedAllJobs = new ArrayList<>();
     private Map<String, Applicant> map = new HashMap<>();
+    boolean search = false;
 
     public List<Job> readApi() {
+        search = false;
         List<Job> allJobs = new ArrayList<>();
         ResponseEntity<String> result = template.getForEntity(jobApi, String.class);
         String jsonString = result.getBody().toString();
@@ -109,11 +111,14 @@ public class JobService {
     }
 
     public List<Job> searchApi(String url) {
+        search = true;
+        List<Job> thisSearchedAllJobs = new ArrayList<>();
         ResponseEntity<String> result = template.getForEntity(url, String.class);
         String jsonString = result.getBody().toString();
         JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
         JsonObject jsonObject = jsonReader.readObject();
         JsonArray jsonArray = jsonObject.getJsonArray("jobs");
+        System.out.println("IN SERVICE SEARCH API" + url);
         for (JsonValue jsonV : jsonArray) {
             Job job = new Job();
             JsonObject js = jsonV.asJsonObject();
@@ -125,11 +130,12 @@ public class JobService {
             job.setJob_type(js.getString("job_type"));
             job.setCandidate_required_location(js.getString("candidate_required_location"));
             job.setDescription(js.getString("description"));
-            searchedAllJobs.add(job);
+            thisSearchedAllJobs.add(job);
             jobMap.put(job.getId(), job);
         }
-        makeCountryList(searchedAllJobs);
-        return searchedAllJobs;
+        searchedAllJobs = thisSearchedAllJobs;
+        makeCountryList(thisSearchedAllJobs);
+        return thisSearchedAllJobs;
     }
 
     public List<Job> searchApiList() {
@@ -147,9 +153,8 @@ public class JobService {
     public void updateApplicant(Account account, Applicant applicant, Job job) {
         String setEmail = account.getEmail();
         applicant.setEmail(setEmail);
-        applicant.setApplied(job.getId().toString());   
+        applicant.setApplied(job.getTitle().toString() + " at "+ job.getCompany_name().toString());   
         applicantMap.put(applicant.getEmail(), applicant);
-        System.out.println("SEE FULL MAP >>>>>>>" + applicantMap);
         applicantRepo.saveRecord(applicant, job);
     }
 
@@ -162,7 +167,6 @@ public class JobService {
         for (Applicant app :list){
             map.put(app.getApplied(), app);
         }
-        System.out.println("MAP IS HERE" + map);
         return map;
     }
 
@@ -170,13 +174,14 @@ public class JobService {
         Applicant app = map.get(id);
         JSONObject jsonResponse = new JSONObject();
         if (app != null) {
+            System.out.println(app);
             jsonResponse.put("firstName", app.getFirstName());
             jsonResponse.put("lastName", app.getLastName());
             jsonResponse.put("email", app.getEmail());
             jsonResponse.put("address", app.getAddress());
             jsonResponse.put("location", app.getLocation());
             jsonResponse.put("mobileNo", app.getMobileNo());
-            jsonResponse.put("dob", app.getDob());
+            jsonResponse.put("startDate", app.getStartDate());
             jsonResponse.put("coverLetter", app.getCoverLetter());
             jsonResponse.put("applied", app.getApplied());
             return new ResponseEntity<>(jsonResponse.toString(), HttpStatus.OK);

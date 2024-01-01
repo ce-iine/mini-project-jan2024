@@ -85,11 +85,12 @@
 
             <div class="mb-3">
                 <label for="location" class="form-label"><span style="color:red;">*</span>Location</label>
-                <select class="form-select" aria-label="Select country">
-                    <option selected>Select country</option>
-                    <option th:each="location: ${dropdown}" th:value="${location}" th:text="${location}">
-                    </option>
+                <select class="form-select" aria-label="Select country" name="location" th:value="${location}">
+                    <option value="" selected>Select country</option>
+                    <option th:each="locationOption: ${dropdown}" th:value="${locationOption}" th:text="${locationOption}"></option>
                 </select>
+
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
             </div>
 
             <div class="mb-3">
@@ -107,11 +108,11 @@
             <div class="alert alert-danger" th:if="${#fields.hasErrors('mobileNo')}" th:errors="*{mobileNo}"></div>
 
             <div class="mb-3">
-                <label for="dob" class="form-label"><span style="color:red;">*</span>Date of Birth</label>
-                <input type="date" class="form-control" name="dob" th:field="*{dob}">
+                <label for="startDate" class="form-label"><span style="color:red;">*</span>Earliest Starting Date</label>
+                <input type="date" class="form-control" name="startDate" th:field="*{startDate}">
             </div>
 
-            <div class="alert alert-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></div>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 
             <div class="mb-3">
                 <label for="formFileSm" class="form-label">Resume</label>

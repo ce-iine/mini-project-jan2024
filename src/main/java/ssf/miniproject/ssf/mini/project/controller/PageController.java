@@ -92,8 +92,8 @@ public class PageController {
         Job job = (Job) session.getAttribute("job");
         Account account = (Account) session.getAttribute("account");
 
-        if (form.getDob() == null) {
-            FieldError err = new FieldError("form", "dob", "Please enter your date of birth");
+        if (form.getStartDate() == null) {
+            FieldError err = new FieldError("form", "startDate", "Please enter your earliest start date");
             result.addError(err);
         }
 
@@ -114,17 +114,22 @@ public class PageController {
     @PostMapping("/search/process")
     public String process(@RequestBody MultiValueMap<String, String> form, Model model, HttpSession sess) {
         boolean searched = true;
+        boolean entered = true;
         String search = form.getFirst("searchvalue");
+        System.out.println("SEARCHED" + search);
+        sess.setAttribute("search", search);
         String result = jobSvc.formUrl(search);
-        List<Job> allJobs = jobSvc.searchApi(result);
-        List<String> allCountries = new ArrayList<>();
-        allCountries = jobSvc.makeCountryList(allJobs);
+        List<Job> allJobs = jobSvc.searchApi(result); // check here
+        List<String> allCountries = jobSvc.makeCountryList(allJobs);
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
+        System.out.println("SEE EMAILLLL " + applicant.getEmail());
 
+        model.addAttribute("search", search);
         model.addAttribute("allCountries", allCountries);
         model.addAttribute("applicant", applicant);
         model.addAttribute("allJobs", allJobs);
         model.addAttribute("searched", searched);
+        model.addAttribute("entered", entered);
         return "front-page";
     }
 
@@ -162,6 +167,8 @@ public class PageController {
 
     @GetMapping("/searchFilteredCountry")
     public String searchFilteredCountry(@RequestParam(name = "selected", required = false) String selected, Model model, HttpSession sess) {
+        boolean entered = true;
+        String search = (String) sess.getAttribute("search");
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
         List<Job> allJobs = jobSvc.searchApiList();
         List<String> allCountries = new ArrayList<>();
@@ -178,6 +185,8 @@ public class PageController {
         model.addAttribute("allJobs", filteredJobs);
         model.addAttribute("applicant", applicant);
         model.addAttribute("allCountries", allCountries);
+        model.addAttribute("search", search);
+        model.addAttribute("entered", entered);
         return "front-page";
     }
 }

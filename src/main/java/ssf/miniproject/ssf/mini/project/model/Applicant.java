@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -34,6 +35,7 @@ public class Applicant {
     @NotEmpty (message = "Address is mandatory")
     private String address;
 
+    @NotEmpty (message = "Please select your location")
     private String location;
 
     @NotEmpty (message = "Phone Number is mandatory")
@@ -41,10 +43,12 @@ public class Applicant {
     private String mobileNo;
 
     @DateTimeFormat (pattern="yyyy-MM-dd")
-    @Past (message = "Date of birth must be before than today")
-    private LocalDate dob;
+    @Future (message = "Starting date of work must be after than today")
+    private LocalDate startDate;
 
     private String coverLetter;
+
+    private String resume;
 
     private String applied; 
 
@@ -53,9 +57,10 @@ public class Applicant {
             .add("firstName", this.getFirstName())
             .add("lastName", this.getLastName())
             .add("email", this.getEmail())
+            .add("location", this.getLocation())
             .add("address", this.getAddress())
             .add("mobileNo", this.getMobileNo())
-            .add("dob", this.getDob().toString())
+            .add("startDate", this.getStartDate().toString())
             .add("coverLetter", this.getCoverLetter())
             .add("applied", this.getApplied())
             .build();

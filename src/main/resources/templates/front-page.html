@@ -101,29 +101,33 @@
         </form>
         <br>
 
+        <div style="text-align: center;" class="container">
+        <h3 th:if="${entered}" data-th-text=" 'Showing jobs for: ' + ${search} + ' !' "></h3>
+        </div>
+
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Job Title</th>
                     <th>Company Name</th>
                     <th>Job type</th>
-                    <th> Location
+                    <th> Candidate Location
                         <form th:unless="${searched}" th:action="@{/filteredCountry}" method="get">
                             <select name="selected">
-                                <option value="">-- Select a country --</option>
+                                <option value="">-- Select location --</option>
                                 <option th:each="country: ${allCountries}" th:value="${country}" th:text="${country}">
                                 </option>
                             </select>
                             <button class="btn btn-outline-success" type="submit">Filter</button>
                         </form>
 
-                        <form th:if="${searched}" th:action="@{/searchFilteredCountry}" th:method="get">
+                        <form th:if="${searched}" th:action="@{/searchFilteredCountry}" method="get">
                             <select name="selected">
-                                <option value="">-- Select a country --</option>
+                                <option value="">-- Select location --</option>
                                 <option th:each="country: ${allCountries}" th:value="${country}" th:text="${country}">
                                 </option>
                             </select>
-                            <button type="submit">Filter</button>
+                            <button class="btn btn-outline-success" type="submit">Filter</button>
                         </form>
                     </th>
                 </tr>
