@@ -20,11 +20,11 @@ import ssf.miniproject.ssf.mini.project.model.Job;
 public class ApplicantRepo {
 
     @Autowired
-    @Qualifier("jobbean")
+    @Qualifier("jobbean") // applications
     private RedisTemplate<String, Object> template = new RedisTemplate<>();
 
     @Autowired
-    @Qualifier("savebean")
+    @Qualifier("savebean") // saved jobs 
     private RedisTemplate<String, Object> saveTemplate = new RedisTemplate<>();
 
     private String cust = "";
@@ -48,12 +48,12 @@ public class ApplicantRepo {
         return allApplications;
     }
 
-    public void keepRecord(Applicant applicant, Job job) {// NEWWW
+    public void keepRecord(Applicant applicant, Job job) {
         cust = applicant.getEmail() + "saves";
         saveTemplate.opsForHash().put(cust, job.getId(), job.toJson().toString());
     }
 
-    public List<Job> allSaved(String email) throws JsonMappingException, JsonProcessingException{ // NEWWW
+    public List<Job> allSaved(String email) throws JsonMappingException, JsonProcessingException{
         cust = email + "saves";
        List<Object> values = saveTemplate.opsForHash().values(cust);
         ObjectMapper mapper = new ObjectMapper();
@@ -61,14 +61,14 @@ public class ApplicantRepo {
 
         for (Object id : values) {
             String convert = id.toString();
-            Job job = mapper.readValue(convert, Job.class); // returns application
+            Job job = mapper.readValue(convert, Job.class);
             mapper.registerModule(new JavaTimeModule());
             savedJobs.add(job);
         }
         return savedJobs;
     }
 
-    public void removeSaved(String email, Long id){ // NEWWW
+    public void removeSaved(String email, Long id){
         cust = email + "saves";
         if (saveTemplate.opsForHash().hasKey(cust, id)){
             saveTemplate.opsForHash().delete(cust, id);

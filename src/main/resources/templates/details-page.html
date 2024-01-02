@@ -41,12 +41,19 @@
         </div>
 
         <br>
-        <div class="d-flex justify-content-center">
-        <div class="btn-group">
-            <a class="btn btn-primary active" aria-current="page">Overview</a>
-            <a data-th-href="@{/job/apply/{id}(id=${job.id})}" class="btn btn-primary">Application</a>
+
+        <div style="position: sticky; top: 0; background-color: #fff; z-index: 1000;">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="btn-group">
+                    <a class="btn btn-primary active" aria-current="page">Overview</a>
+                    <a data-th-href="@{/job/apply/{id}(id=${job.id})}" class="btn btn-primary">Apply Here</a>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary" th:href="@{/save/{id}(id=${job.id})}" type="button">Save This Role!</a>
+                <a class="btn btn-primary" th:href="@{/accountpage}" type="button">View all saved roles</a>
+            </div>
         </div>
-    </div>
 
         <br><br>
         <div style="text-align: center;">
@@ -59,13 +66,10 @@
             <p th:utext="${job.description}"></p>
         </div>
 
-        <div class="d-grid gap-2">
-            <a class="btn btn-primary" th:href="@{/job/apply/{id}(id=${job.id})}" type="button" style="margin-bottom: 50px;">Apply For This Role!</a>
-        </div>
-
-        <div class="d-grid gap-2">
-            <a class="btn btn-primary" th:href="@{/save/{id}(id=${job.id})}" type="button" style="margin-bottom: 50px;">Save This Role!</a>
-        </div>
+        <!-- <div class="d-grid gap-2">
+            <a class="btn btn-primary" th:href="@{/job/apply/{id}(id=${job.id})}" type="button"
+                style="margin-bottom: 20px;">Apply For This Role!</a>
+        </div> -->
     </div>
 
 </body>

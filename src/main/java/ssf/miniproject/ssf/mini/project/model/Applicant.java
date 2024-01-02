@@ -47,6 +47,7 @@ public class Applicant {
 
     private String coverLetter;
 
+    @NotEmpty (message = "Please attach your resume")
     private String resume;
 
     private String applied; 
@@ -60,6 +61,7 @@ public class Applicant {
             .add("address", this.getAddress())
             .add("mobileNo", this.getMobileNo())
             .add("startDate", this.getStartDate().toString())
+            .add("resume", this.getResume())
             .add("coverLetter", this.getCoverLetter())
             .add("applied", this.getApplied())
             .build();

@@ -85,7 +85,7 @@ public class PageController {
         return "application";
     }
 
-    @PostMapping(path = "/job/post/{id}", consumes = "application/x-www-form-urlencoded")
+    @PostMapping(path = "/job/post/{id}")
     public String afterCompleteDetails(@Valid @ModelAttribute("applicant") Applicant form, BindingResult result,
             @PathVariable String id, Model model, HttpSession session) {
 
@@ -119,7 +119,7 @@ public class PageController {
         System.out.println("SEARCHED" + search);
         sess.setAttribute("search", search);
         String result = jobSvc.formUrl(search);
-        List<Job> allJobs = jobSvc.searchApi(result); // check here
+        List<Job> allJobs = jobSvc.searchApi(result);
         List<String> allCountries = jobSvc.makeCountryList(allJobs);
         Applicant applicant = (Applicant) sess.getAttribute("applicant");
 
@@ -147,7 +147,7 @@ public class PageController {
         return "account-page";
     }
 
-    @GetMapping("/save/{id}") // NEWWW
+    @GetMapping("/save/{id}")
     public String saveJob(@PathVariable String id, Model model, HttpSession session) {
         Job job = jobSvc.displayJob(id);
         Applicant applicant = (Applicant) session.getAttribute("applicant");
@@ -157,7 +157,7 @@ public class PageController {
         return "redirect:/job/{id}";
     }
 
-    @GetMapping("/deletesaved/{id}") // NEWWW
+    @GetMapping("/deletesaved/{id}")
     public String deleted(@PathVariable Long id, Model model, HttpSession session) throws JsonMappingException, JsonProcessingException {
         Applicant applicant = (Applicant) session.getAttribute("applicant");
         jobSvc.deleteSaved(applicant.getEmail(), id);

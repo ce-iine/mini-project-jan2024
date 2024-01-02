@@ -154,7 +154,7 @@ public class JobService {
     public void updateApplicant(Account account, Applicant applicant, Job job) {
         String setEmail = account.getEmail();
         applicant.setEmail(setEmail);
-        applicant.setApplied(job.getTitle().toString() + " at "+ job.getCompany_name().toString());   
+        applicant.setApplied(job.getTitle().toString() + " at "+ job.getCompany_name().toString()); 
         applicantMap.put(applicant.getEmail(), applicant);
         applicantRepo.saveRecord(applicant, job);
     }
@@ -171,18 +171,18 @@ public class JobService {
         return map;
     }
 
-    public List<Job> save(Applicant applicant, Job job){ // NEWWW
+    public List<Job> save(Applicant applicant, Job job){
         saved.add(job);
         applicantRepo.keepRecord(applicant, job);
         return saved;
     }
 
-    public List<Job> getSaves(String email) throws JsonMappingException, JsonProcessingException{ // NEWWW
+    public List<Job> getSaves(String email) throws JsonMappingException, JsonProcessingException{
         List<Job> saves = applicantRepo.allSaved(email);
         return saves;
     }
 
-    public void deleteSaved(String email, Long id){ // NEWWW
+    public void deleteSaved(String email, Long id){
         applicantRepo.removeSaved(email, id);
     }
 
@@ -199,6 +199,7 @@ public class JobService {
             jsonResponse.put("mobileNo", app.getMobileNo());
             jsonResponse.put("startDate", app.getStartDate());
             jsonResponse.put("coverLetter", app.getCoverLetter());
+            jsonResponse.put("resume", app.getResume());
             jsonResponse.put("applied", app.getApplied());
             return new ResponseEntity<>(jsonResponse.toString(), HttpStatus.OK);
         } 

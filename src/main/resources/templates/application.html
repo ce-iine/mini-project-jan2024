@@ -44,7 +44,7 @@
         <div class="d-flex justify-content-center">
             <div class="btn-group">
                 <a data-th-href="@{/job/{id}(id=${job.id})}" class="btn btn-primary">Overview</a>
-                <a class="btn btn-primary active" aria-current="page">Application</a>
+                <a class="btn btn-primary active" aria-current="page">Apply Here</a>
             </div>
         </div>
 
@@ -119,9 +119,11 @@
             <div class="alert alert-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 
             <div class="mb-3">
-                <label for="formFileSm" class="form-label">Resume</label>
-                <input class="form-control form-control-sm" id="formFileSm" type="file">
+                <label for="resume" class="form-label"><span style="color:red;">*</span>Resume</label>
+                <input class="form-control form-control-sm" id="resume" type="file" th:field="*{resume}">
             </div>
+
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('resume')}" th:errors="*{resume}"></div>
 
             <div class="mb-3">
                 <label for="coverLetter" class="form-label">Cover Letter</label>
